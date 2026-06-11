@@ -168,6 +168,30 @@ input[type="range"] {
   margin: 4px 0;
 }
 
+.seg {
+  display: flex;
+  gap: 6px;
+  background: #1b2740;
+  border: 1px solid #2c3c5e;
+  border-radius: 10px;
+  padding: 4px;
+}
+.seg-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #9fb0c8;
+  padding: 9px 10px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.seg-btn.on {
+  background: linear-gradient(180deg, #2f6fc0, #1f4f93);
+  color: #fff;
+}
+
 .section-title {
   font-size: 12px;
   text-transform: uppercase;
@@ -400,6 +424,215 @@ input[type="range"] {
   width: 84%;
   height: 84%;
   object-fit: contain;
+}
+
+/* ============ Partner / foil template ============ */
+:root {
+  --teal-bg: #86ced6;
+  --teal-bar: #138693;
+}
+
+.pcard {
+  position: relative;
+  width: 543px;
+  height: 724px;
+  background: var(--teal-bg);
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.pcard::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+/* shared diagonal jersey-stripe pattern */
+.pstripes,
+.pstripes-mini {
+  width: 100%;
+  height: 100%;
+  background-color: #d3d6d8;
+  background-image: repeating-linear-gradient(
+    -52deg,
+    #6aa9e0 0,
+    #6aa9e0 26px,
+    #aacef0 26px,
+    #aacef0 52px,
+    #cfd3d6 52px,
+    #cfd3d6 86px
+  );
+}
+.pstripes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pstripes span {
+  color: #ffffffe6;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 6px 14px;
+  border-radius: 8px;
+}
+
+/* photo window */
+.pwindow {
+  position: absolute;
+  left: 22px;
+  top: 26px;
+  width: 366px;
+  height: 566px;
+  background: #fff;
+  padding: 5px;
+  border-radius: 14px 14px 14px 74px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+.pwindow > .pphoto,
+.pwindow > .pstripes {
+  position: absolute;
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 10px 10px 10px 70px;
+  overflow: hidden;
+}
+.pphoto {
+  object-fit: cover;
+  transform-origin: center;
+}
+
+/* right sidebar */
+.psidebar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.psponsor,
+.ppartner,
+.pbrand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.psponsor img,
+.ppartner img,
+.pbrand img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.psponsor {
+  width: 108px;
+  height: 98px;
+  margin-top: 28px;
+}
+.ppartner {
+  width: 110px;
+  height: 150px;
+  margin-top: 16px;
+}
+.pbrand {
+  width: 120px;
+  height: 42px;
+  position: absolute;
+  bottom: 16px;
+}
+
+.logo-slot-empty {
+  border: 2px dashed rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.logo-slot-empty span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffffcc;
+}
+
+/* mini jersey badge */
+.pbadge {
+  width: 64px;
+  height: 70px;
+  margin-top: 18px;
+  padding: 4px;
+  background: #fff;
+  border-radius: 10px 10px 10px 26px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+.pstripes-mini {
+  border-radius: 7px 7px 7px 22px;
+  overflow: hidden;
+}
+
+/* big vertical country code */
+.pcode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.9;
+  margin-top: 14px;
+}
+.pcode span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: 70px;
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+}
+
+/* bottom bars */
+.pname-bar {
+  position: absolute;
+  left: 22px;
+  bottom: 70px;
+  width: 250px;
+  height: 48px;
+  background: var(--teal-bar);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+}
+.pname-bar span {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.pcountry-bar {
+  position: absolute;
+  left: 22px;
+  bottom: 14px;
+  width: 366px;
+  height: 48px;
+  background: var(--teal-bar);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pcountry-bar span {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 4px;
 }
 
 @media (max-width: 720px) {
