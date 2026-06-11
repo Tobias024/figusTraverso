@@ -22,9 +22,6 @@ const DEFAULTS: StickerData = {
   position: "DELANTERA",
   flagUrl: "/template/flag.png",
   badgeUrl: "/template/badge.png",
-  sponsorUrl: "",
-  partnerUrl: "/template/logo.png",
-  brandUrl: "",
 };
 
 function readFile(file: File): Promise<string> {
@@ -70,7 +67,7 @@ export default function Home() {
 
   const onAsset = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    key: "flagUrl" | "badgeUrl" | "sponsorUrl" | "partnerUrl" | "brandUrl"
+    key: "flagUrl" | "badgeUrl"
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -289,43 +286,6 @@ export default function Home() {
                   />
                 </label>
               </div>
-            </>
-          )}
-
-          {template === "partner" && (
-            <>
-              <div className="divider" />
-              <div className="section-title">Logos (opcional)</div>
-              <p className="hint">
-                Subí tus propios logos para los espacios de sponsor, partner y
-                marca.
-              </p>
-              <div className="row">
-                <label className="file-btn" style={{ flex: 1 }}>
-                  🥤 Sponsor
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => onAsset(e, "sponsorUrl")}
-                  />
-                </label>
-                <label className="file-btn" style={{ flex: 1 }}>
-                  🏆 Partner
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => onAsset(e, "partnerUrl")}
-                  />
-                </label>
-              </div>
-              <label className="file-btn">
-                🏷️ Marca
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => onAsset(e, "brandUrl")}
-                />
-              </label>
             </>
           )}
 

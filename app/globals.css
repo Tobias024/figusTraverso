@@ -518,47 +518,52 @@ input[type="range"] {
   align-items: center;
 }
 
-.psponsor,
-.ppartner,
-.pbrand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.psponsor img,
-.ppartner img,
-.pbrand img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
 .psponsor {
-  width: 108px;
+  width: 98px;
   height: 98px;
   margin-top: 28px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-.ppartner {
-  width: 110px;
-  height: 150px;
-  margin-top: 16px;
-}
-.pbrand {
-  width: 120px;
-  height: 42px;
-  position: absolute;
-  bottom: 16px;
+.psponsor img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.logo-slot-empty {
-  border: 2px dashed rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.18);
+.ppartner {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.logo-slot-empty span {
-  font-size: 11px;
+.ppartner img {
+  width: 92px;
+  height: auto;
+  object-fit: contain;
+}
+.ppartner-caption {
+  margin-top: 8px;
+  color: #fff;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: #ffffffcc;
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.pbrand {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  width: 152px;
+  height: 40px;
+}
+.pbrand img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* mini jersey badge */
@@ -592,22 +597,23 @@ input[type="range"] {
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
 }
 
-/* bottom bars */
+/* bottom bars — first one is tall and full window width, second is thin */
 .pname-bar {
   position: absolute;
   left: 22px;
-  bottom: 70px;
-  width: 250px;
-  height: 48px;
+  bottom: 64px;
+  width: 366px;
+  height: 60px;
   background: var(--teal-bar);
-  border-radius: 24px;
+  border-radius: 30px;
   display: flex;
   align-items: center;
-  padding: 0 22px;
+  justify-content: center;
+  padding: 0 26px;
 }
 .pname-bar span {
   color: #fff;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
@@ -619,10 +625,10 @@ input[type="range"] {
   position: absolute;
   left: 22px;
   bottom: 14px;
-  width: 366px;
-  height: 48px;
+  width: 330px;
+  height: 38px;
   background: var(--teal-bar);
-  border-radius: 24px;
+  border-radius: 19px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -630,7 +636,7 @@ input[type="range"] {
 .pcountry-bar span {
   font-family: Georgia, "Times New Roman", serif;
   color: #fff;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: 4px;
 }

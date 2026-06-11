@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#f40009"/>
+  <text x="100" y="88" text-anchor="middle" fill="#fff"
+        font-family="'Brush Script MT','Segoe Script','Snell Roundhand','Lucida Handwriting',cursive"
+        font-size="42" font-style="italic">Coca·Cola</text>
+  <!-- dynamic ribbon wave -->
+  <path d="M22 130 C 60 108, 95 144, 132 122 C 152 110, 168 108, 180 114"
+        stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M30 146 C 68 126, 100 158, 138 138"
+        stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+</svg>

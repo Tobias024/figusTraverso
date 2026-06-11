@@ -5,30 +5,6 @@ import { StickerData } from "./StickerCard";
 
 type Props = { data: StickerData };
 
-function LogoSlot({
-  url,
-  label,
-  className,
-}: {
-  url: string;
-  label: string;
-  className: string;
-}) {
-  if (url) {
-    return (
-      <div className={className}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={url} alt="" />
-      </div>
-    );
-  }
-  return (
-    <div className={`${className} logo-slot-empty`}>
-      <span>{label}</span>
-    </div>
-  );
-}
-
 const StickerCardPartner = forwardRef<HTMLDivElement, Props>(
   function StickerCardPartner({ data }, ref) {
     // vertical country code, one letter per line
@@ -55,10 +31,21 @@ const StickerCardPartner = forwardRef<HTMLDivElement, Props>(
           )}
         </div>
 
-        {/* right sidebar */}
+        {/* right sidebar with fixed partner logos */}
         <div className="psidebar">
-          <LogoSlot url={data.sponsorUrl} label="SPONSOR" className="psponsor" />
-          <LogoSlot url={data.partnerUrl} label="PARTNER" className="ppartner" />
+          <div className="psponsor">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/template/cocacola.svg" alt="" />
+          </div>
+          <div className="ppartner">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/template/fifa26.png" alt="" />
+            <div className="ppartner-caption">
+              OFFICIAL
+              <br />
+              PARTNER
+            </div>
+          </div>
           <div className="pbadge">
             <div className="pstripes-mini" />
           </div>
@@ -67,15 +54,20 @@ const StickerCardPartner = forwardRef<HTMLDivElement, Props>(
               <span key={i}>{l}</span>
             ))}
           </div>
-          <LogoSlot url={data.brandUrl} label="MARCA" className="pbrand" />
         </div>
 
-        {/* bottom bars */}
+        {/* bottom bars (editable) */}
         <div className="pname-bar">
           <span>{data.name}</span>
         </div>
         <div className="pcountry-bar">
           <span>{data.countryCode}</span>
+        </div>
+
+        {/* brand logo bottom-right */}
+        <div className="pbrand">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/template/panini.svg" alt="" />
         </div>
       </div>
     );
