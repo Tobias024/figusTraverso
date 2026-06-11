@@ -16,6 +16,10 @@ export type StickerData = {
   position: string;
   flagUrl: string;
   badgeUrl: string;
+  // partner template
+  sponsorUrl: string;
+  partnerUrl: string;
+  brandUrl: string;
 };
 
 type Props = { data: StickerData };

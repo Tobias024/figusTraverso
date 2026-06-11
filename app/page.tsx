@@ -3,8 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import StickerCard, { StickerData } from "@/components/StickerCard";
+import StickerCardPartner from "@/components/StickerCardPartner";
 
 const CARD_W = 543;
+
+type TemplateId = "classic" | "partner";
 
 const DEFAULTS: StickerData = {
   photoUrl: null,
@@ -19,6 +22,9 @@ const DEFAULTS: StickerData = {
   position: "DELANTERA",
   flagUrl: "/template/flag.png",
   badgeUrl: "/template/badge.png",
+  sponsorUrl: "",
+  partnerUrl: "/template/logo.png",
+  brandUrl: "",
 };
 
 function readFile(file: File): Promise<string> {
@@ -32,6 +38,7 @@ function readFile(file: File): Promise<string> {
 
 export default function Home() {
   const [data, setData] = useState<StickerData>(DEFAULTS);
+  const [template, setTemplate] = useState<TemplateId>("classic");
   const [scale, setScale] = useState(1);
   const [busy, setBusy] = useState(false);
 
@@ -63,7 +70,7 @@ export default function Home() {
 
   const onAsset = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    key: "flagUrl" | "badgeUrl"
+    key: "flagUrl" | "badgeUrl" | "sponsorUrl" | "partnerUrl" | "brandUrl"
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -115,12 +122,36 @@ export default function Home() {
               width: CARD_W * scale,
             }}
           >
-            <StickerCard ref={cardRef} data={data} />
+            {template === "classic" ? (
+              <StickerCard ref={cardRef} data={data} />
+            ) : (
+              <StickerCardPartner ref={cardRef} data={data} />
+            )}
           </div>
         </div>
 
         {/* CONTROLS */}
         <div className="controls">
+          <div className="field">
+            <label>Plantilla</label>
+            <div className="seg">
+              <button
+                type="button"
+                className={template === "classic" ? "seg-btn on" : "seg-btn"}
+                onClick={() => setTemplate("classic")}
+              >
+                Clásica
+              </button>
+              <button
+                type="button"
+                className={template === "partner" ? "seg-btn on" : "seg-btn"}
+                onClick={() => setTemplate("partner")}
+              >
+                Official Partner
+              </button>
+            </div>
+          </div>
+
           <label className="file-btn">
             📷 {data.photoUrl ? "Cambiar foto" : "Subir foto"}
             <input type="file" accept="image/*" onChange={onPhoto} />
@@ -185,14 +216,16 @@ export default function Home() {
                 }
               />
             </div>
-            <div className="field">
-              <label>País</label>
-              <input
-                type="text"
-                value={data.country}
-                onChange={(e) => set("country", e.target.value)}
-              />
-            </div>
+            {template === "classic" && (
+              <div className="field">
+                <label>País</label>
+                <input
+                  type="text"
+                  value={data.country}
+                  onChange={(e) => set("country", e.target.value)}
+                />
+              </div>
+            )}
           </div>
 
           <div className="field">
@@ -204,54 +237,97 @@ export default function Home() {
             />
           </div>
 
-          <div className="row">
-            <div className="field">
-              <label>Altura</label>
-              <input
-                type="text"
-                value={data.height}
-                onChange={(e) => set("height", e.target.value)}
-              />
-            </div>
-            <div className="field">
-              <label>Peso</label>
-              <input
-                type="text"
-                value={data.weight}
-                onChange={(e) => set("weight", e.target.value)}
-              />
-            </div>
-          </div>
+          {template === "classic" && (
+            <>
+              <div className="row">
+                <div className="field">
+                  <label>Altura</label>
+                  <input
+                    type="text"
+                    value={data.height}
+                    onChange={(e) => set("height", e.target.value)}
+                  />
+                </div>
+                <div className="field">
+                  <label>Peso</label>
+                  <input
+                    type="text"
+                    value={data.weight}
+                    onChange={(e) => set("weight", e.target.value)}
+                  />
+                </div>
+              </div>
 
-          <div className="field">
-            <label>Posición</label>
-            <input
-              type="text"
-              value={data.position}
-              onChange={(e) => set("position", e.target.value.toUpperCase())}
-            />
-          </div>
+              <div className="field">
+                <label>Posición</label>
+                <input
+                  type="text"
+                  value={data.position}
+                  onChange={(e) =>
+                    set("position", e.target.value.toUpperCase())
+                  }
+                />
+              </div>
 
-          <div className="divider" />
-          <div className="section-title">Opcional</div>
-          <div className="row">
-            <label className="file-btn" style={{ flex: 1 }}>
-              🏳️ Bandera
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => onAsset(e, "flagUrl")}
-              />
-            </label>
-            <label className="file-btn" style={{ flex: 1 }}>
-              🛡️ Escudo
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => onAsset(e, "badgeUrl")}
-              />
-            </label>
-          </div>
+              <div className="divider" />
+              <div className="section-title">Opcional</div>
+              <div className="row">
+                <label className="file-btn" style={{ flex: 1 }}>
+                  🏳️ Bandera
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => onAsset(e, "flagUrl")}
+                  />
+                </label>
+                <label className="file-btn" style={{ flex: 1 }}>
+                  🛡️ Escudo
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => onAsset(e, "badgeUrl")}
+                  />
+                </label>
+              </div>
+            </>
+          )}
+
+          {template === "partner" && (
+            <>
+              <div className="divider" />
+              <div className="section-title">Logos (opcional)</div>
+              <p className="hint">
+                Subí tus propios logos para los espacios de sponsor, partner y
+                marca.
+              </p>
+              <div className="row">
+                <label className="file-btn" style={{ flex: 1 }}>
+                  🥤 Sponsor
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => onAsset(e, "sponsorUrl")}
+                  />
+                </label>
+                <label className="file-btn" style={{ flex: 1 }}>
+                  🏆 Partner
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => onAsset(e, "partnerUrl")}
+                  />
+                </label>
+              </div>
+              <label className="file-btn">
+                🏷️ Marca
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => onAsset(e, "brandUrl")}
+                />
+              </label>
+            </>
+          )}
 
           <button
             className="download"

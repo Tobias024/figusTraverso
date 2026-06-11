@@ -6,6 +6,17 @@ template limpio y descargás el resultado como **PNG**.
 
 Está pensada para desplegarse en **Vercel** (Next.js).
 
+## Plantillas
+
+La app incluye un selector con dos diseños:
+
+- **Clásica**: figurita estilo álbum, con foto, sigla, bandera, escudo, nombre,
+  altura, peso y posición.
+- **Official Partner**: diseño turquesa con la foto en una ventana redondeada,
+  sigla vertical grande, barras de nombre/país y **espacios para subir logos**
+  (sponsor, partner y marca). Los logos no vienen incluidos: se suben desde la
+  app para evitar incluir marcas de terceros.
+
 ## Cómo funciona
 
 El marco de la figurita (bordes, logo, íconos de estadísticas, banda de nombre,
