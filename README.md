@@ -13,9 +13,8 @@ La app incluye un selector con dos diseños:
 - **Clásica**: figurita estilo álbum, con foto, sigla, bandera, escudo, nombre,
   altura, peso y posición.
 - **Official Partner**: diseño turquesa con la foto en una ventana redondeada,
-  sigla vertical grande, barras de nombre/país y **espacios para subir logos**
-  (sponsor, partner y marca). Los logos no vienen incluidos: se suben desde la
-  app para evitar incluir marcas de terceros.
+  sigla vertical grande y cartel de nombre. Solo la foto y el nombre son
+  editables; el resto (emblema, escudo y sigla vertical) es fijo.
 
 ## Cómo funciona
 
