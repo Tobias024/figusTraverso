@@ -201,19 +201,19 @@ export default function Home() {
 
           <div className="divider" />
 
-          <div className="row">
-            <div className="field">
-              <label>Sigla país</label>
-              <input
-                type="text"
-                value={data.countryCode}
-                maxLength={4}
-                onChange={(e) =>
-                  set("countryCode", e.target.value.toUpperCase())
-                }
-              />
-            </div>
-            {template === "classic" && (
+          {template === "classic" && (
+            <div className="row">
+              <div className="field">
+                <label>Sigla país</label>
+                <input
+                  type="text"
+                  value={data.countryCode}
+                  maxLength={4}
+                  onChange={(e) =>
+                    set("countryCode", e.target.value.toUpperCase())
+                  }
+                />
+              </div>
               <div className="field">
                 <label>País</label>
                 <input
@@ -222,11 +222,11 @@ export default function Home() {
                   onChange={(e) => set("country", e.target.value)}
                 />
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <div className="field">
-            <label>Nombre</label>
+            <label>{template === "partner" ? "Cartel (nombre)" : "Nombre"}</label>
             <input
               type="text"
               value={data.name}

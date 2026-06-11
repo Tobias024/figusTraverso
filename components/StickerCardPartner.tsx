@@ -7,12 +7,12 @@ type Props = { data: StickerData };
 
 const StickerCardPartner = forwardRef<HTMLDivElement, Props>(
   function StickerCardPartner({ data }, ref) {
-    // vertical country code, one letter per line
-    const codeLetters = (data.countryCode || "").split("");
+    // vertical country code (fixed decoration), one letter per line
+    const codeLetters = (data.countryCode || "ARG").split("");
 
     return (
       <div className="pcard" ref={ref}>
-        {/* photo window */}
+        {/* photo window (editable) */}
         <div className="pwindow">
           {data.photoUrl ? (
             <img
@@ -31,12 +31,8 @@ const StickerCardPartner = forwardRef<HTMLDivElement, Props>(
           )}
         </div>
 
-        {/* right sidebar with fixed partner logos */}
+        {/* right sidebar (fixed) */}
         <div className="psidebar">
-          <div className="psponsor">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/template/cocacola.svg" alt="" />
-          </div>
           <div className="ppartner">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/template/fifa26.png" alt="" />
@@ -56,18 +52,9 @@ const StickerCardPartner = forwardRef<HTMLDivElement, Props>(
           </div>
         </div>
 
-        {/* bottom bars (editable) */}
+        {/* bottom sign (editable) */}
         <div className="pname-bar">
           <span>{data.name}</span>
-        </div>
-        <div className="pcountry-bar">
-          <span>{data.countryCode}</span>
-        </div>
-
-        {/* brand logo bottom-right */}
-        <div className="pbrand">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/template/panini.svg" alt="" />
         </div>
       </div>
     );
