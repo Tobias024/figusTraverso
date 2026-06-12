@@ -200,42 +200,41 @@ input[type="range"] {
   margin-top: 4px;
 }
 
-/* ---------------- The sticker card ---------------- */
+/* ============================================================
+   La figurita = el template real bg_1.webp (801×1076) usado tal
+   cual. Solo se superponen las partes editables; ningún logo se
+   recrea. Coordenadas medidas píxel a píxel sobre la imagen.
+   ============================================================ */
 .card {
   position: relative;
-  width: 543px;
-  height: 724px;
-  background: #ffffff;
-  border-radius: 30px;
-  padding: 8px;
+  width: 801px;
+  height: 1076px;
+  overflow: hidden;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
 }
 
-.frame {
-  position: relative;
+/* imagen base del template, intacta */
+.card-bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: 23px;
-  padding: 7px;
-  background: linear-gradient(160deg, #3b6fc0 0%, var(--blue) 38%, var(--blue-deep) 100%);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
+/* ventana de la foto: encaja dentro del marco blanco, con la
+   esquina inferior izquierda en "gota" como el template */
 .window {
-  position: relative;
-  flex: 1 1 auto;
-  border-radius: 16px 16px 4px 4px;
+  position: absolute;
+  left: 42px;
+  top: 54px;
+  width: 528px;
+  height: 808px;
   overflow: hidden;
-  background: radial-gradient(
-      120% 80% at 50% 0%,
-      #6f7f93 0%,
-      #3f4f63 45%,
-      #243246 100%
-    );
+  border-radius: 10px 10px 10px 90px;
 }
-
 .photo {
   position: absolute;
   inset: 0;
@@ -244,355 +243,64 @@ input[type="range"] {
   object-fit: cover;
   transform-origin: center;
 }
-
-.photo-placeholder {
+.window-hint {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffffcc;
-  font-size: 18px;
+}
+.window-hint span {
+  color: #ffffff;
+  font-size: 26px;
   letter-spacing: 0.5px;
+  background: rgba(0, 0, 0, 0.32);
+  padding: 10px 22px;
+  border-radius: 10px;
 }
 
-.top-fade {
+/* recuadros teal de abajo: el div es transparente y deja ver el
+   recuadro del propio template; solo aporta el texto editable */
+.pill {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 120px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent);
-  pointer-events: none;
-}
-
-/* logo */
-.logo-chip {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 84px;
-  height: 124px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-}
-.logo-chip img {
-  width: 88%;
-  height: 88%;
-  object-fit: contain;
-}
-
-/* country code box */
-.code-box {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  min-width: 92px;
-  height: 42px;
-  padding: 0 12px;
-  background: #fff;
-  border: 3px solid var(--blue);
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--blue-deep);
-  letter-spacing: 1px;
-}
-
-/* flag */
-.flag-box {
-  position: absolute;
-  top: 64px;
-  right: 14px;
-  width: 92px;
-  height: 40px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-.flag-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* stats */
-.stats {
-  position: absolute;
-  top: 152px;
-  left: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 80px;
-}
-.stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-.stat-chip {
-  width: 50px;
-  height: 50px;
-  border-radius: 11px;
-  background: linear-gradient(180deg, #3b7fd0, var(--blue-chip));
-  border: 2px solid #ffffffcc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-.stat-label {
-  margin-top: 5px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-.stat-value {
-  font-size: 15px;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.15;
-}
-
-/* name band */
-.name-band {
-  flex: 0 0 auto;
-  height: 66px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  padding: 0 110px 0 18px;
-}
-.name {
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--ink);
-  letter-spacing: 0.3px;
-  line-height: 1.02;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-}
-
-/* country bar */
-.country-bar {
-  flex: 0 0 auto;
-  height: 40px;
-  background: var(--blue-bar);
-  display: flex;
-  align-items: center;
-  padding: 0 110px 0 18px;
-}
-.country-bar span {
-  color: #fff;
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-/* federation badge */
-.badge-chip {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  width: 86px;
-  height: 86px;
-  border-radius: 12px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-}
-.badge-chip img {
-  width: 84%;
-  height: 84%;
-  object-fit: contain;
-}
-
-/* ============ Partner / foil template ============ */
-:root {
-  --teal-bg: #86ced6;
-  --teal-bar: #138693;
-}
-
-.pcard {
-  position: relative;
-  width: 543px;
-  height: 724px;
-  background: var(--teal-bg);
-  border-radius: 20px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-.pcard::after {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border: 2px solid rgba(255, 255, 255, 0.45);
-  border-radius: 14px;
-  pointer-events: none;
-}
-
-/* shared diagonal jersey-stripe pattern */
-.pstripes,
-.pstripes-mini {
-  width: 100%;
-  height: 100%;
-  background-color: #d3d6d8;
-  background-image: repeating-linear-gradient(
-    -52deg,
-    #6aa9e0 0,
-    #6aa9e0 26px,
-    #aacef0 26px,
-    #aacef0 52px,
-    #cfd3d6 52px,
-    #cfd3d6 86px
-  );
-}
-.pstripes {
+  left: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.pstripes span {
-  color: #ffffffe6;
-  font-size: 18px;
-  letter-spacing: 0.5px;
-  background: rgba(0, 0, 0, 0.28);
-  padding: 6px 14px;
-  border-radius: 8px;
-}
-
-/* photo window */
-.pwindow {
-  position: absolute;
-  left: 22px;
-  top: 26px;
-  width: 366px;
-  height: 566px;
-  background: #fff;
-  padding: 5px;
-  border-radius: 14px 14px 14px 74px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-}
-.pwindow > .pphoto,
-.pwindow > .pstripes {
-  position: absolute;
-  inset: 5px;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  border-radius: 10px 10px 10px 70px;
-  overflow: hidden;
-}
-.pphoto {
-  object-fit: cover;
-  transform-origin: center;
-}
-
-/* right sidebar */
-.psidebar {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 150px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ppartner {
-  margin-top: 70px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.ppartner img {
-  width: 92px;
-  height: auto;
-  object-fit: contain;
-}
-.ppartner-caption {
-  margin-top: 8px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-align: center;
-  line-height: 1.35;
-}
-
-/* mini jersey badge */
-.pbadge {
-  width: 64px;
-  height: 70px;
-  margin-top: 18px;
-  padding: 4px;
-  background: #fff;
-  border-radius: 10px 10px 10px 26px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-}
-.pstripes-mini {
-  border-radius: 7px 7px 7px 22px;
-  overflow: hidden;
-}
-
-/* big vertical country code */
-.pcode {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 0.9;
-  margin-top: 14px;
-}
-.pcode span {
+.pill span {
+  color: #ffffff;
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 700;
-  font-size: 70px;
-  color: #fff;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
-}
-
-/* bottom sign (editable name) — tall, full window width */
-.pname-bar {
-  position: absolute;
-  left: 22px;
-  bottom: 22px;
-  width: 366px;
-  height: 60px;
-  background: var(--teal-bar);
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 26px;
-}
-.pname-bar span {
-  color: #fff;
-  font-size: 24px;
-  font-weight: 700;
+  text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-transform: uppercase;
+}
+
+/* superior: nombre */
+.pill-name {
+  top: 878px;
+  width: 528px;
+  height: 93px;
+  padding: 0 34px;
+}
+.pill-name span {
+  font-size: 42px;
   letter-spacing: 0.5px;
+}
+
+/* inferior: sigla (recuadro limpiado en bg.webp) */
+.pill-code {
+  top: 981px;
+  width: 529px;
+  height: 52px;
+  padding: 0 24px;
+}
+.pill-code span {
+  font-size: 46px;
+  line-height: 1;
+  letter-spacing: 1px;
 }
 
 @media (max-width: 720px) {

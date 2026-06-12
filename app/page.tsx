@@ -3,25 +3,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import StickerCard, { StickerData } from "@/components/StickerCard";
-import StickerCardPartner from "@/components/StickerCardPartner";
 
-const CARD_W = 543;
-
-type TemplateId = "classic" | "partner";
+// Tamaño nativo del template bg_1.webp
+const CARD_W = 801;
+const CARD_H = 1076;
 
 const DEFAULTS: StickerData = {
   photoUrl: null,
   zoom: 1,
   posX: 50,
   posY: 50,
-  countryCode: "ARG",
   name: "NOMBRE APELLIDO",
-  country: "Argentina",
-  height: "1.40 m",
-  weight: "45 KGS",
-  position: "DELANTERA",
-  flagUrl: "/template/flag.png",
-  badgeUrl: "/template/badge.png",
+  code: "ARG",
 };
 
 function readFile(file: File): Promise<string> {
@@ -35,7 +28,6 @@ function readFile(file: File): Promise<string> {
 
 export default function Home() {
   const [data, setData] = useState<StickerData>(DEFAULTS);
-  const [template, setTemplate] = useState<TemplateId>("classic");
   const [scale, setScale] = useState(1);
   const [busy, setBusy] = useState(false);
 
@@ -45,13 +37,12 @@ export default function Home() {
   const set = <K extends keyof StickerData>(key: K, value: StickerData[K]) =>
     setData((d) => ({ ...d, [key]: value }));
 
-  // Responsive: scale the preview down to fit its column on small screens.
+  // Responsive: escala el preview para que entre en su columna.
   useEffect(() => {
     const update = () => {
       const col = previewColRef.current;
       if (!col) return;
-      const available = col.clientWidth;
-      setScale(Math.min(1, available / CARD_W));
+      setScale(Math.min(1, col.clientWidth / CARD_W));
     };
     update();
     window.addEventListener("resize", update);
@@ -65,16 +56,6 @@ export default function Home() {
     setData((d) => ({ ...d, photoUrl: url, zoom: 1, posX: 50, posY: 50 }));
   };
 
-  const onAsset = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    key: "flagUrl" | "badgeUrl"
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const url = await readFile(file);
-    set(key, url);
-  };
-
   const download = useCallback(async () => {
     if (!cardRef.current) return;
     setBusy(true);
@@ -83,7 +64,7 @@ export default function Home() {
         pixelRatio: 2,
         cacheBust: true,
         width: CARD_W,
-        height: 724,
+        height: CARD_H,
       });
       const link = document.createElement("a");
       const safe = (data.name || "figurita")
@@ -105,50 +86,30 @@ export default function Home() {
     <main className="page">
       <h1>Figus Traverso ⚽</h1>
       <p className="sub">
-        Subí una foto, completá los datos y descargá tu figurita en PNG.
+        Subí tu foto, escribí el nombre y la sigla, y descargá tu figurita en PNG.
       </p>
 
       <div className="layout">
         {/* PREVIEW */}
-        <div className="preview-col" ref={previewColRef} style={{ width: CARD_W }}>
+        <div
+          className="preview-col"
+          ref={previewColRef}
+          style={{ maxWidth: CARD_W }}
+        >
           <div
             className="preview"
             style={{
               transform: `scale(${scale})`,
-              height: 724 * scale,
               width: CARD_W * scale,
+              height: CARD_H * scale,
             }}
           >
-            {template === "classic" ? (
-              <StickerCard ref={cardRef} data={data} />
-            ) : (
-              <StickerCardPartner ref={cardRef} data={data} />
-            )}
+            <StickerCard ref={cardRef} data={data} />
           </div>
         </div>
 
         {/* CONTROLS */}
         <div className="controls">
-          <div className="field">
-            <label>Plantilla</label>
-            <div className="seg">
-              <button
-                type="button"
-                className={template === "classic" ? "seg-btn on" : "seg-btn"}
-                onClick={() => setTemplate("classic")}
-              >
-                Clásica
-              </button>
-              <button
-                type="button"
-                className={template === "partner" ? "seg-btn on" : "seg-btn"}
-                onClick={() => setTemplate("partner")}
-              >
-                Official Partner
-              </button>
-            </div>
-          </div>
-
           <label className="file-btn">
             📷 {data.photoUrl ? "Cambiar foto" : "Subir foto"}
             <input type="file" accept="image/*" onChange={onPhoto} />
@@ -201,32 +162,8 @@ export default function Home() {
 
           <div className="divider" />
 
-          {template === "classic" && (
-            <div className="row">
-              <div className="field">
-                <label>Sigla país</label>
-                <input
-                  type="text"
-                  value={data.countryCode}
-                  maxLength={4}
-                  onChange={(e) =>
-                    set("countryCode", e.target.value.toUpperCase())
-                  }
-                />
-              </div>
-              <div className="field">
-                <label>País</label>
-                <input
-                  type="text"
-                  value={data.country}
-                  onChange={(e) => set("country", e.target.value)}
-                />
-              </div>
-            </div>
-          )}
-
           <div className="field">
-            <label>{template === "partner" ? "Cartel (nombre)" : "Nombre"}</label>
+            <label>Nombre (recuadro superior)</label>
             <input
               type="text"
               value={data.name}
@@ -234,60 +171,14 @@ export default function Home() {
             />
           </div>
 
-          {template === "classic" && (
-            <>
-              <div className="row">
-                <div className="field">
-                  <label>Altura</label>
-                  <input
-                    type="text"
-                    value={data.height}
-                    onChange={(e) => set("height", e.target.value)}
-                  />
-                </div>
-                <div className="field">
-                  <label>Peso</label>
-                  <input
-                    type="text"
-                    value={data.weight}
-                    onChange={(e) => set("weight", e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="field">
-                <label>Posición</label>
-                <input
-                  type="text"
-                  value={data.position}
-                  onChange={(e) =>
-                    set("position", e.target.value.toUpperCase())
-                  }
-                />
-              </div>
-
-              <div className="divider" />
-              <div className="section-title">Opcional</div>
-              <div className="row">
-                <label className="file-btn" style={{ flex: 1 }}>
-                  🏳️ Bandera
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => onAsset(e, "flagUrl")}
-                  />
-                </label>
-                <label className="file-btn" style={{ flex: 1 }}>
-                  🛡️ Escudo
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => onAsset(e, "badgeUrl")}
-                  />
-                </label>
-              </div>
-            </>
-          )}
+          <div className="field">
+            <label>Sigla (recuadro inferior)</label>
+            <input
+              type="text"
+              value={data.code}
+              onChange={(e) => set("code", e.target.value.toUpperCase())}
+            />
+          </div>
 
           <button
             className="download"

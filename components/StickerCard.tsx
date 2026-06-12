@@ -1,40 +1,26 @@
 "use client";
 
 import { forwardRef } from "react";
-import { HeightIcon, WeightIcon, PositionIcon } from "./StatIcons";
+
+/**
+ * Figurita = el template real `bg_1.webp` (801×1076) usado tal cual.
+ * Encima solo se superponen las partes editables:
+ *   - la foto, recortada a la ventana rayada (esquina inferior izquierda en gota)
+ *   - el recuadro superior (nombre)
+ *   - el recuadro inferior (sigla, ej. "ARG") — el texto baked ya se limpió en bg.webp
+ * Ningún logo (Coca-Cola, FIFA 26, escudo, ARG lateral, Panini) se recrea ni se toca.
+ */
 
 export type StickerData = {
   photoUrl: string | null;
   zoom: number;
   posX: number;
   posY: number;
-  countryCode: string;
   name: string;
-  country: string;
-  height: string;
-  weight: string;
-  position: string;
-  flagUrl: string;
-  badgeUrl: string;
+  code: string;
 };
 
 type Props = { data: StickerData };
-
-const Stat = ({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label?: string;
-  value: string;
-}) => (
-  <div className="stat">
-    <div className="stat-chip">{icon}</div>
-    {label ? <div className="stat-label">{label}</div> : null}
-    <div className="stat-value">{value}</div>
-  </div>
-);
 
 const StickerCard = forwardRef<HTMLDivElement, Props>(function StickerCard(
   { data },
@@ -42,63 +28,38 @@ const StickerCard = forwardRef<HTMLDivElement, Props>(function StickerCard(
 ) {
   return (
     <div className="card" ref={ref}>
-      <div className="frame">
-        <div className="window">
-          {/* photo / placeholder */}
-          {data.photoUrl ? (
-            <img
-              className="photo"
-              src={data.photoUrl}
-              alt=""
-              style={{
-                objectPosition: `${data.posX}% ${data.posY}%`,
-                transform: `scale(${data.zoom})`,
-              }}
-            />
-          ) : (
-            <div className="photo-placeholder">
-              <span>Subí una foto</span>
-            </div>
-          )}
+      {/* template base — la imagen tal cual, con todos sus logos */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="card-bg" src="/template/bg.webp" alt="" />
 
-          <div className="top-fade" />
-
-          {/* FIFA-style logo chip */}
-          <div className="logo-chip">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/template/logo.png" alt="" />
+      {/* foto editable, recortada a la ventana rayada */}
+      <div className="window">
+        {data.photoUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            className="photo"
+            src={data.photoUrl}
+            alt=""
+            style={{
+              objectPosition: `${data.posX}% ${data.posY}%`,
+              transform: `scale(${data.zoom})`,
+            }}
+          />
+        ) : (
+          <div className="window-hint">
+            <span>Subí una foto</span>
           </div>
+        )}
+      </div>
 
-          {/* country code box */}
-          <div className="code-box">{data.countryCode}</div>
+      {/* recuadro superior: nombre (texto sobre el recuadro teal del template) */}
+      <div className="pill pill-name">
+        <span>{data.name}</span>
+      </div>
 
-          {/* flag */}
-          <div className="flag-box">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={data.flagUrl} alt="" />
-          </div>
-
-          {/* left stats strip */}
-          <div className="stats">
-            <Stat icon={<HeightIcon />} label="ALTURA" value={data.height} />
-            <Stat icon={<WeightIcon />} label="PESO" value={data.weight} />
-            <Stat icon={<PositionIcon />} value={data.position} />
-          </div>
-        </div>
-
-        {/* bottom: name + country */}
-        <div className="name-band">
-          <div className="name">{data.name}</div>
-        </div>
-        <div className="country-bar">
-          <span>{data.country}</span>
-        </div>
-
-        {/* federation badge */}
-        <div className="badge-chip">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={data.badgeUrl} alt="" />
-        </div>
+      {/* recuadro inferior: sigla (texto sobre el recuadro limpiado) */}
+      <div className="pill pill-code">
+        <span>{data.code}</span>
       </div>
     </div>
   );
