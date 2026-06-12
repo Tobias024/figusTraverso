@@ -14,6 +14,8 @@ import { forwardRef } from "react";
 
 export type StickerData = {
   photoUrl: string | null;
+  natW: number; // dimensiones naturales de la foto (para encuadre)
+  natH: number;
   zoom: number;
   posX: number;
   posY: number;
@@ -26,6 +28,25 @@ export type StickerData = {
 };
 
 type Props = { data: StickerData };
+
+// Dimensiones de la ventana de la foto (coinciden con .window en CSS)
+const WIN_W = 528;
+const WIN_H = 808;
+
+// Tamaño/posición de la foto: siempre cubre la ventana (sin huecos) y se
+// puede desplazar en AMBOS ejes según el zoom y los sliders horizontal/vertical.
+function photoStyle(d: StickerData): React.CSSProperties {
+  if (!d.natW || !d.natH) return {};
+  const cover = Math.max(WIN_W / d.natW, WIN_H / d.natH);
+  const dispW = d.natW * cover * d.zoom;
+  const dispH = d.natH * cover * d.zoom;
+  return {
+    width: dispW,
+    height: dispH,
+    left: -(dispW - WIN_W) * (d.posX / 100),
+    top: -(dispH - WIN_H) * (d.posY / 100),
+  };
+}
 
 const StickerCard = forwardRef<HTMLDivElement, Props>(function StickerCard(
   { data },
@@ -47,15 +68,7 @@ const StickerCard = forwardRef<HTMLDivElement, Props>(function StickerCard(
       <div className="window">
         {data.photoUrl ? (
           /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            className="photo"
-            src={data.photoUrl}
-            alt=""
-            style={{
-              objectPosition: `${data.posX}% ${data.posY}%`,
-              transform: `scale(${data.zoom})`,
-            }}
-          />
+          <img className="photo" src={data.photoUrl} alt="" style={photoStyle(data)} />
         ) : (
           <div className="window-hint">
             <span>Subí una foto</span>

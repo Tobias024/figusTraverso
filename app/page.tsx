@@ -12,6 +12,8 @@ const PREVIEW_W = 380;
 
 const DEFAULTS: StickerData = {
   photoUrl: null,
+  natW: 0,
+  natH: 0,
   zoom: 1,
   posX: 50,
   posY: 50,
@@ -59,7 +61,23 @@ export default function Home() {
     const file = e.target.files?.[0];
     if (!file) return;
     const url = await readFile(file);
-    setData((d) => ({ ...d, photoUrl: url, zoom: 1, posX: 50, posY: 50 }));
+    const im = new Image();
+    im.onload = () => {
+      // ventana de la foto (coincide con WIN_W/WIN_H en StickerCard)
+      const cover = Math.max(528 / im.naturalWidth, 808 / im.naturalHeight);
+      // zoom inicial que garantiza ~12% de juego vertical para reencuadrar
+      const z = Math.max(1, (808 * 1.12) / (im.naturalHeight * cover));
+      setData((d) => ({
+        ...d,
+        photoUrl: url,
+        natW: im.naturalWidth,
+        natH: im.naturalHeight,
+        zoom: Math.round(z * 100) / 100,
+        posX: 50,
+        posY: 50,
+      }));
+    };
+    im.src = url;
   };
 
   const download = useCallback(async () => {
