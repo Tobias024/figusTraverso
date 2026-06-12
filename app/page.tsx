@@ -7,14 +7,20 @@ import StickerCard, { StickerData } from "@/components/StickerCard";
 // Tamaño nativo del template bg_1.webp
 const CARD_W = 801;
 const CARD_H = 1076;
+// Ancho de visualización de la tarjeta (debe coincidir con .preview-col en CSS)
+const PREVIEW_W = 380;
 
 const DEFAULTS: StickerData = {
   photoUrl: null,
   zoom: 1,
   posX: 50,
   posY: 50,
-  name: "NOMBRE APELLIDO",
-  code: "ARG",
+  firstName: "LIONEL",
+  lastName: "MESSI",
+  birth: "24-6-1987",
+  height: "1,70 m",
+  weight: "72 kg",
+  club: "INTER MIAMI CF (USA)",
 };
 
 function readFile(file: File): Promise<string> {
@@ -32,17 +38,17 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
 
   const cardRef = useRef<HTMLDivElement>(null);
-  const previewColRef = useRef<HTMLDivElement>(null);
 
   const set = <K extends keyof StickerData>(key: K, value: StickerData[K]) =>
     setData((d) => ({ ...d, [key]: value }));
 
-  // Responsive: escala el preview para que entre en su columna.
+  // La tarjeta se muestra a un ancho fijo cómodo (≤380px) para que quepa al
+  // lado de los controles; en pantallas chicas se achica al ancho disponible.
   useEffect(() => {
     const update = () => {
-      const col = previewColRef.current;
-      if (!col) return;
-      setScale(Math.min(1, col.clientWidth / CARD_W));
+      const content = Math.min(window.innerWidth, 1080) - 36;
+      const target = Math.min(PREVIEW_W, content);
+      setScale(target / CARD_W);
     };
     update();
     window.addEventListener("resize", update);
@@ -67,7 +73,7 @@ export default function Home() {
         height: CARD_H,
       });
       const link = document.createElement("a");
-      const safe = (data.name || "figurita")
+      const safe = `${data.firstName} ${data.lastName}`
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "");
@@ -80,7 +86,7 @@ export default function Home() {
     } finally {
       setBusy(false);
     }
-  }, [data.name]);
+  }, [data.firstName, data.lastName]);
 
   return (
     <main className="page">
@@ -91,11 +97,7 @@ export default function Home() {
 
       <div className="layout">
         {/* PREVIEW */}
-        <div
-          className="preview-col"
-          ref={previewColRef}
-          style={{ maxWidth: CARD_W }}
-        >
+        <div className="preview-col">
           <div
             className="preview"
             style={{
@@ -162,21 +164,58 @@ export default function Home() {
 
           <div className="divider" />
 
-          <div className="field">
-            <label>Nombre (recuadro superior)</label>
-            <input
-              type="text"
-              value={data.name}
-              onChange={(e) => set("name", e.target.value)}
-            />
+          <div className="row">
+            <div className="field">
+              <label>Nombre</label>
+              <input
+                type="text"
+                value={data.firstName}
+                onChange={(e) => set("firstName", e.target.value)}
+              />
+            </div>
+            <div className="field">
+              <label>Apellido</label>
+              <input
+                type="text"
+                value={data.lastName}
+                onChange={(e) => set("lastName", e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="field">
+              <label>Nacimiento</label>
+              <input
+                type="text"
+                value={data.birth}
+                onChange={(e) => set("birth", e.target.value)}
+              />
+            </div>
+            <div className="field">
+              <label>Altura</label>
+              <input
+                type="text"
+                value={data.height}
+                onChange={(e) => set("height", e.target.value)}
+              />
+            </div>
+            <div className="field">
+              <label>Peso</label>
+              <input
+                type="text"
+                value={data.weight}
+                onChange={(e) => set("weight", e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="field">
-            <label>Sigla (recuadro inferior)</label>
+            <label>Club (recuadro inferior)</label>
             <input
               type="text"
-              value={data.code}
-              onChange={(e) => set("code", e.target.value.toUpperCase())}
+              value={data.club}
+              onChange={(e) => set("club", e.target.value)}
             />
           </div>
 
